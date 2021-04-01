@@ -10,7 +10,7 @@ else
     exit 1
 fi
 
-ssh_line="ssh -i $vm_script_dir/$backup_destination_key"
+ssh_line="ssh -i $parent_path/$backup_destination_key"
 ssh_host="$backup_destination_user@$backup_destination_host"
 
 echo "Checking for SSH key..."
@@ -31,15 +31,21 @@ total_backup_size=$($ssh_line $ssh_host "mkdir -p $backup_destination_mount/$bac
 echo -e "...Done\n"
 
 echo "Adding cron entry for backup..."
-current_cron=$(crontab -l 2>/dev/null)
+
+crontab -l > currentCron
 if [ $? -eq 0 ]; then
-    current_cron=$(echo $current_cron | awk "!/$vm_script_dir/d")
+    current_cron=$(awk '!/$parent_path/' currentCron)
+    new_cron="${vm_sync_frequency} ${parent_path}/backup.sh"
 else
     current_cron=""
 fi
 
-new_cron="${current_cron}
+if [[ -z "${current_cron// }" ]]; then
+    new_cron="${vm_sync_frequency} ${parent_path}/backup.sh"
+else
+    new_cron="${current_cron}
 ${vm_sync_frequency} ${parent_path}/backup.sh"
+fi
 
 crontab -r 2>/dev/null  # remove existing crontab
 echo "$new_cron" | crontab -  # add to crontab

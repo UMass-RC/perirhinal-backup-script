@@ -17,7 +17,6 @@ echo "Starting sync for timestamp $timestamp..."
 rsync -aPh --delete -e "ssh -i $vm_script_dir/$backup_destination_key" --link-dest=$backup_destination_mount/$backup_destination_folder/$last_timestamp $vm_sync_dir/* $backup_destination_user@$backup_destination_host:$backup_destination_mount/$backup_destination_folder/$timestamp
 echo "...Done backing up"
 
-
 backup_size_query=$($ssh_line $ssh_host "du -h --max-depth=0 $backup_destination_mount/$backup_destination_folder")
 backup_size=$(echo $backup_size_query | cut -d ' ' -f1)
 
