@@ -2,3 +2,4 @@ config.sh
 .vscode/
 *.key
 lastBackup
+log

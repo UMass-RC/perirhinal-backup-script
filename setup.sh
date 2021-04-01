@@ -32,23 +32,16 @@ echo -e "...Done\n"
 
 echo "Adding cron entry for backup..."
 
-crontab -l > currentCron
-if [ $? -eq 0 ]; then
-    current_cron=$(awk '!/$parent_path/' currentCron)
-    new_cron="${vm_sync_frequency} ${parent_path}/backup.sh"
-else
-    current_cron=""
-fi
+current_cron=$(crontab -l 2> /dev/null)
+crontab -r 2> /dev/null
+echo "$current_cron" | while read line; do
+    if [[ ${line} != *"$parent_path"* ]]; then
+        (crontab -l 2>/dev/null; echo "$line") | crontab -
+    fi
+done
 
-if [[ -z "${current_cron// }" ]]; then
-    new_cron="${vm_sync_frequency} ${parent_path}/backup.sh"
-else
-    new_cron="${current_cron}
-${vm_sync_frequency} ${parent_path}/backup.sh"
-fi
+(crontab -l 2>/dev/null; echo "$vm_sync_frequency $parent_path/backup.sh > log") | crontab -
 
-crontab -r 2>/dev/null  # remove existing crontab
-echo "$new_cron" | crontab -  # add to crontab
 echo -e "...Done\n"
 
 echo "Adding binary backup-sync"
