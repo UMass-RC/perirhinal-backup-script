@@ -1,4 +1,0 @@
-0 1 * * * /home/vm01/perirhinal-backup-script/backup.sh
-0 2 * * * test-script
-0 1 * * * /home/vm01/perirhinal-backup-script/backup.sh
-0 1 * * * /home/vm01/perirhinal-backup-script/backup.sh
