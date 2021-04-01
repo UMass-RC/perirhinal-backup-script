@@ -1,11 +1,11 @@
 #!/bin/sh
 
-vm_script_dir="/srv/perirhinal-backup-script"  # current directory of this script
-vm_sync_dir="/home/vm01/data"  # sync directory on the VM (only this VM will be synced)
+vm_sync_dir="/home/vm01/data"  # sync directory on the VM (only this directory will be synced)
 vm_sync_frequency="0 1 * * *"  # use https://crontab.guru/every-day-at-1am to generate a cron expression if you wish to change this. By default, runs every 24 hours at 1 AM
 
 backup_destination_host="nese.rc.umass.edu"
-backup_destination_folder="/Rosie"  # Make this the name of the current VM
+backup_destination_mount="/mount"  # DO NOT EDIT THIS LINE
+backup_destination_folder="Patrick"  # Make this the name of the current VM
 
 backup_destination_user="perirhinal"  # remote SFTP user
-backup_destination_key="nese.key"  # private key location for the ssh connection
+backup_destination_key="nese.key"  # private key location for the ssh connection (relative to script location)
