@@ -40,7 +40,7 @@ echo "$current_cron" | while read line; do
     fi
 done
 
-(crontab -l 2>/dev/null; echo "$vm_sync_frequency $parent_path/backup.sh > log") | crontab -
+(crontab -l 2>/dev/null; echo "$vm_sync_frequency $parent_path/backup.sh > $parent_path/log") | crontab -
 
 echo -e "...Done\n"
 
